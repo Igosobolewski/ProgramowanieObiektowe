@@ -2,7 +2,7 @@ using System;
 
 namespace lab1
 {
-    class Program
+    class Program6
     {
         static void Main(string[] args)
         {
@@ -53,6 +53,23 @@ namespace lab1
             Console.WriteLine("To string");
             Console.WriteLine(money.ToString());
 
+            money.Equals(person);
+
+            Money[] prices =
+            {
+                Money.Of(12, Currency.PLN),
+                Money.Of(14, Currency.PLN),
+                Money.Of(15, Currency.PLN),
+                Money.Of(17, Currency.USD),
+                Money.Of(15, Currency.EUR),
+                Money.Of(13, Currency.USD)
+            };
+
+            Array.Sort(prices);
+            foreach (var m in prices)
+            {
+                Console.WriteLine(m.ToString());
+            }
 
         }
 
@@ -100,6 +117,7 @@ namespace lab1
             }
         }
 
+      
 
         public enum Currency
         {
@@ -108,7 +126,7 @@ namespace lab1
             EUR = 3
         }
 
-        public class Money
+        public class Money: IEquatable<Money>, IComparable<Money>
         {
             private readonly decimal _value;
             private readonly Currency _currency;
@@ -193,9 +211,37 @@ namespace lab1
 
             public override string ToString()
             {
-                return $"Value{_value} $Currency{_currency}";
+                return $"Value: {_value}, $Currency: {_currency}";
             }
 
+            public override bool Equals(object obj)
+            {
+                return obj is Money money &&
+                       _value == money._value &&
+                       _currency == money._currency;
+            }
+
+            public override int GetHashCode()
+            {
+                return HashCode.Combine(_value, _currency);
+            }
+
+            public bool Equals(Money other)
+            {
+                        return
+                      _value == other._value &&
+                      _currency == other._currency;
+            }
+
+            public int CompareTo(Money other)
+            {
+                int result =  _currency.CompareTo(other._currency);
+                if(result == 0){
+                    return _value.CompareTo(other._value);
+                }else {
+                       return result
+                      }
+            }
         }
 
     }
