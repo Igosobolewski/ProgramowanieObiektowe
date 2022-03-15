@@ -1,7 +1,7 @@
 using System;
 
 namespace lab1
-{
+{dsd
     class Program6
     {
         static void Main(string[] args)
